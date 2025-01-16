@@ -24,6 +24,14 @@ type Feed struct {
 	UserID    uuid.UUID `json:"user_id"`
 }
 
+type FeedsFollow struct {
+	ID        uuid.UUID `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	UserID    uuid.UUID `json:"user_id"`
+	FeedID    uuid.UUID `json:"feed_id"`
+}
+
 func sanitizeUser(user database.User) User {
 	return User{
 		ID:        user.ID,
@@ -51,4 +59,22 @@ func sanitizeFeeds(dbFeeds []database.Feed) []Feed {
 		feeds = append(feeds, sanitizeFeed(dbfeed))
 	}
 	return feeds
+}
+
+func sanitizeFeedFollow(dbFeed database.FeedsFollow) FeedsFollow {
+	return FeedsFollow{
+		ID:        dbFeed.ID,
+		CreatedAt: dbFeed.CreatedAt,
+		UpdatedAt: dbFeed.UpdatedAt,
+		UserID:    dbFeed.UserID,
+		FeedID:    dbFeed.FeedID,
+	}
+}
+
+func sanitizeFeedFollows(dbFeedFollows []database.FeedsFollow) []FeedsFollow {
+	feedsFollow := []FeedsFollow{}
+	for _, feedFollow := range dbFeedFollows {
+		feedsFollow = append(feedsFollow, sanitizeFeedFollow(feedFollow))
+	}
+	return feedsFollow
 }

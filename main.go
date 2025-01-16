@@ -65,6 +65,9 @@ func main() {
 	// -------feed routes ----------//
 	v1router.Post("/feeds", apiConfig.authMiddleware(apiConfig.handlerCreateFeed)) // authenticated endpoint
 	v1router.Get("/feeds", apiConfig.handlerGetFeeds)
+	v1router.Post("/feeds/follow", apiConfig.authMiddleware(apiConfig.HandlerFollowFeed))
+	v1router.Get("/feeds/follows", apiConfig.authMiddleware(apiConfig.HandlerGetFeedFollows))
+	v1router.Delete("/feeds/follow/{feedFollowId}", apiConfig.authMiddleware(apiConfig.HandlerDeleteFeedFollow))
 
 	router.Mount("/v1", v1router)
 
